@@ -3,21 +3,33 @@
 
 {% block body %}
 
-    <form>
-        <div class="form-group" style="float: left; width: 5em;">
-            <select class="form-control" id="exampleFormControlSelect1">
-                <option>Us</option>
-                <option>Gr</option>
+    <form action="{% url 'index' %}" method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+            <select class="form-control" id="country" name="country">
+                <option value="none" selected disabled hidden> 
+                    Country
+                </option>
+                <option value="us">Us</option>
+                <option value="gr">Gr</option>
             </select>
         </div>
 
-        <div class="form-group" style="float: left; margin-left: 1em; width: 7em;">
-            <select class="form-control" id="exampleFormControlSelect1">
-                <option>General</option>
-                <option>Business</option>
+        <div class="form-group">
+            <select class="form-control" id="category" name="category">
+                <option value="none" selected disabled hidden> 
+                    Category
+                </option>
+                <option value="general">General</option>
+                <option value="business">Business</option>
+                <option value="entertainment">Entertainment</option>
+                <option value="health">Health</option>
+                <option value="science">Science</option>
+                <option value="sports">Sports</option>
+                <option value="technology">Technology</option>
             </select>
         </div>
-        <button type="submit" class="btn btn-primary" style="margin-left: 0.5em; background-color: #212529;">Submit</button>
+        <button type="submit" class="btn btn-primary" id="submit">Submit</button>
     </form>
 
     <div class="container">
@@ -27,14 +39,18 @@
                     <div class="card" style="width: 18rem;">
                         <img class="card-img-top" src="{{article.urlToImage}}" alt="{{article.source.name}}">
                         <div class="card-body">
-                          <h5 class="card-title">{{article.title}}</h5>
-                          <p class="card-text">{{article.description|truncatechars:100}}</p>
-                          <a href="{{article.url}}" class="btn btn-primary" target="blank">Read</a>
+                            <i class="far fa-bookmark" id="bookmark"></i>
+                            <i class="fas fa-bookmark" id="dl_bookmark"></i>
+                            <h5 class="card-title">{{article.title}}</h5>
+                            <p class="card-text">{{article.description|truncatechars:100}}</p>
+                            <a href="{{article.url}}" class="btn btn-primary" target="blank">Read</a>
                         </div>
                     </div>
                 </div>
             {% endfor %}
         </div>
     </div>
+
+    <script src="{% static 'news/index.js' %}"></script>
 
 {% endblock %}

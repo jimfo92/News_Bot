@@ -10,7 +10,19 @@ import requests
 
 # Create your views here.
 def index(request):
-    news_request = requests.get("https://newsapi.org/v2/top-headlines?country=us&apiKey=ee4879eace1c436faf001ee8b69971c8")
+    #default values us and general 
+    country = 'us'
+    category = 'general'
+
+    if request.method == "POST":
+        try:
+            country = request.POST['country']
+            category = request.POST['category']
+        except:
+            #in case user does not choose country and/or category
+            return HttpResponseRedirect(reverse("index"))
+
+    news_request = requests.get(f"https://newsapi.org/v2/top-headlines?country={country}&category={category}&apiKey=ee4879eace1c436faf001ee8b69971c8")   
     news = json.loads(news_request.content)
     return render(request, "news/index.html", {"news":news})
 

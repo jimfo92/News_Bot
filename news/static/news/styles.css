@@ -6,3 +6,18 @@ form {
 .card {
     margin-top: 0.5em;
 }
+
+#bookmark:hover {
+    background-color: #212529;
+}
+
+#country, #category{
+    float: left; 
+    margin-left: 1em; 
+    width: 7em;
+}
+
+#submit{
+    margin-left: 0.5em; 
+    background-color: #007bff;
+}

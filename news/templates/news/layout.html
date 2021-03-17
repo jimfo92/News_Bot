@@ -7,6 +7,7 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
         <link href="{% static 'news/styles.css' %}/" rel="stylesheet">
         <script src="https://kit.fontawesome.com/eb9b184289.js" crossorigin="anonymous"></script>
+        <script src="https://kit.fontawesome.com/eb9b184289.js" crossorigin="anonymous"></script>
     </head>
     <body>
 
@@ -26,10 +27,7 @@
 
                 {% if user.is_authenticated %}
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Will_Read</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Read</a>
+                        <a class="nav-link" href="#">Bookmarks</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'logout' %}">Log out</a>
