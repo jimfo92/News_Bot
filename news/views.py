@@ -6,6 +6,8 @@ from django.db import IntegrityError
 from .models import *
 import json
 import requests
+from django.contrib.auth.decorators import login_required
+from datetime import datetime
 
 
 # Create your views here.
@@ -26,6 +28,14 @@ def index(request):
     news = json.loads(news_request.content)
     return render(request, "news/index.html", {"news":news})
 
+
+def search_keyword(request):
+    if request.method == "POST":
+        keyword = request.POST["keyword"]
+        news_request = requests.get(f"https://newsapi.org/v2/everything?q={keyword}&from={datetime.today().strftime('%Y-%m-%d')}&sortBy=popularity&apiKey=ee4879eace1c436faf001ee8b69971c8")   
+        news = json.loads(news_request.content)
+        return render(request, "news/index.html", {"news":news})
+        
 
 def login_view(request):
     if request.method == "POST":
