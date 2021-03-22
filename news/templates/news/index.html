@@ -2,35 +2,36 @@
 {% load static %}
 
 {% block body %}
+    {% if not bookmark_layout %}
+        <form action="{% url 'index' %}" method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                <select class="form-control" id="country" name="country">
+                    <option value="none" selected disabled hidden> 
+                        Country
+                    </option>
+                    <option value="us">Us</option>
+                    <option value="gr">Gr</option>
+                </select>
+            </div>
 
-    <form action="{% url 'index' %}" method="POST">
-        {% csrf_token %}
-        <div class="form-group">
-            <select class="form-control" id="country" name="country">
-                <option value="none" selected disabled hidden> 
-                    Country
-                </option>
-                <option value="us">Us</option>
-                <option value="gr">Gr</option>
-            </select>
-        </div>
-
-        <div class="form-group">
-            <select class="form-control" id="category" name="category">
-                <option value="none" selected disabled hidden> 
-                    Category
-                </option>
-                <option value="general">General</option>
-                <option value="business">Business</option>
-                <option value="entertainment">Entertainment</option>
-                <option value="health">Health</option>
-                <option value="science">Science</option>
-                <option value="sports">Sports</option>
-                <option value="technology">Technology</option>
-            </select>
-        </div>
-        <button type="submit" class="btn btn-primary" id="submit">Submit</button>
-    </form>
+            <div class="form-group">
+                <select class="form-control" id="category" name="category">
+                    <option value="none" selected disabled hidden> 
+                        Category
+                    </option>
+                    <option value="general">General</option>
+                    <option value="business">Business</option>
+                    <option value="entertainment">Entertainment</option>
+                    <option value="health">Health</option>
+                    <option value="science">Science</option>
+                    <option value="sports">Sports</option>
+                    <option value="technology">Technology</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary" id="submit">Submit</button>
+        </form>
+    {% endif %}
 
     <div class="container">
         <div class="row">
@@ -39,11 +40,11 @@
                     <div class="card" style="width: 18rem;">
                         <img class="card-img-top" src="{{article.urlToImage}}" alt="{{article.source.name}}">
                         <div class="card-body">
-                            <i class="far fa-bookmark" id="bookmark"></i>
-                            <i class="fas fa-bookmark" id="dl_bookmark"></i>
+                            <i class="far fa-bookmark"></i>
+                            <i class="fas fa-bookmark"></i>
                             <h5 class="card-title">{{article.title}}</h5>
                             <p class="card-text">{{article.description|truncatechars:100}}</p>
-                            <a href="{{article.url}}" class="btn btn-primary" target="blank">Read</a>
+                            <a href="{{article.url}}" class="btn btn-primary" target="blank" id="read">Read</a>
                         </div>
                     </div>
                 </div>

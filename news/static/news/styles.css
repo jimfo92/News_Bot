@@ -7,7 +7,7 @@ form {
     margin-top: 0.5em;
 }
 
-#bookmark:hover {
+.far fa-bookmark:hover {
     background-color: #212529;
 }
 

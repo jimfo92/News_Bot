@@ -8,9 +8,13 @@ import json
 import requests
 from django.contrib.auth.decorators import login_required
 from datetime import datetime
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from .models import *
 
 
 # Create your views here.
+@login_required
 def index(request):
     #default values us and general 
     country = 'us'
@@ -24,19 +28,48 @@ def index(request):
             #in case user does not choose country and/or category
             return HttpResponseRedirect(reverse("index"))
 
-    news_request = requests.get(f"https://newsapi.org/v2/top-headlines?country={country}&category={category}&apiKey=ee4879eace1c436faf001ee8b69971c8")   
+    news_request = requests.get(f"https://newsapi.org/v2/top-headlines?country={country}&category={category}&pageSize=100&apiKey=ee4879eace1c436faf001ee8b69971c8")   
     news = json.loads(news_request.content)
+    print(news)
     return render(request, "news/index.html", {"news":news})
 
 
+@login_required
 def search_keyword(request):
     if request.method == "POST":
         keyword = request.POST["keyword"]
         news_request = requests.get(f"https://newsapi.org/v2/everything?q={keyword}&from={datetime.today().strftime('%Y-%m-%d')}&sortBy=popularity&apiKey=ee4879eace1c436faf001ee8b69971c8")   
         news = json.loads(news_request.content)
         return render(request, "news/index.html", {"news":news})
-        
 
+
+@csrf_exempt
+def manage_bookmarks(request):
+    if (request.method != "POST"):
+        return JsonResponse({"error"}, status=404)
+    
+    data = json.loads(request.body.decode("utf-8"))
+    
+    type_of_action = data['type']
+    
+    if type_of_action == 'bookmark':
+        bookmark = Bookmark(user=request.user, title=data['title'], card_description=data['card_description'], image_url=data['image_url'],
+        article_url=data['url'])
+        bookmark.save()
+        return JsonResponse({"message": "Article bookmarked successfuly"}, status=201)
+
+    return JsonResponse({"bookmark": "deleted"}, status=201)
+
+
+@login_required
+def show_bookmarks(request):
+    bookmarks = reversed(Bookmark.objects.filter(user=request.user))
+
+    #transform bookmarks that can be displayed from index.html
+    bookmarks = {"articles": [bookmark.serialize() for bookmark in bookmarks]}
+    return render(request, "news/index.html", {"news":bookmarks, "bookmark_layout":True})
+
+       
 def login_view(request):
     if request.method == "POST":
 
