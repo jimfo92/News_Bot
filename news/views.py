@@ -11,6 +11,12 @@ from datetime import datetime
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from .models import *
+import environ
+
+
+# Initialise environment variables
+env = environ.Env()
+environ.Env.read_env()
 
 
 # Create your views here.
@@ -28,9 +34,8 @@ def index(request):
             #in case user does not choose country and/or category
             return HttpResponseRedirect(reverse("index"))
 
-    news_request = requests.get(f"https://newsapi.org/v2/top-headlines?country={country}&category={category}&pageSize=100&apiKey=ee4879eace1c436faf001ee8b69971c8")   
+    news_request = requests.get(f"https://newsapi.org/v2/top-headlines?country={country}&category={category}&pageSize=100&apiKey={env('API_KEY')}")   
     news = json.loads(news_request.content)
-    print(news)
     return render(request, "news/index.html", {"news":news})
 
 
@@ -38,7 +43,7 @@ def index(request):
 def search_keyword(request):
     if request.method == "POST":
         keyword = request.POST["keyword"]
-        news_request = requests.get(f"https://newsapi.org/v2/everything?q={keyword}&from={datetime.today().strftime('%Y-%m-%d')}&sortBy=popularity&apiKey=ee4879eace1c436faf001ee8b69971c8")   
+        news_request = requests.get(f"https://newsapi.org/v2/everything?q={keyword}&from={datetime.today().strftime('%Y-%m-%d')}&sortBy=popularity&apiKey={env('API_KEY')}")   
         news = json.loads(news_request.content)
         return render(request, "news/index.html", {"news":news})
 
