@@ -74,6 +74,13 @@ def show_bookmarks(request):
     bookmarks = {"articles": [bookmark.serialize() for bookmark in bookmarks]}
     return render(request, "news/index.html", {"news":bookmarks, "bookmark_layout":True})
 
+
+@login_required
+def get_user_bookmarks(request):
+    bookmarks = Bookmark.objects.filter(user=request.user)
+    bookmarks = [bookmark.article_url for bookmark in bookmarks]
+    return JsonResponse({"article_urls": bookmarks}, status=201)
+
        
 def login_view(request):
     if request.method == "POST":

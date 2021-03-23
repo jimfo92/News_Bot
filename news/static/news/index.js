@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
-
-    document.querySelectorAll('.fas').forEach(bookmark => {
-        bookmark.style.display = 'none';
+    //manage bookmarks
+    fetch('get_user_bookmarks').then(response => response.json()).then(data => {
+        manage_bookmarks(data.article_urls)
     })
 
     document.querySelectorAll(".far").forEach(bookmark => {
@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 "title": bookmark.parentElement.querySelector('.card-title').innerHTML,
                 "card_description": bookmark.parentElement.querySelector('.card-text').innerHTML,
                 "image_url": bookmark.parentElement.parentElement.querySelector('img').src,
-                "url": bookmark.parentElement.querySelector('#read').href
+                "url": bookmark.parentElement.querySelector('.read').href
             }
 
             fetch('manage_bookmark', {
@@ -30,3 +30,14 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     })
 })
+
+
+function manage_bookmarks(article_urls) {
+    document.querySelectorAll('.read').forEach((event) => {
+        if (article_urls.includes(event.href) == true) {
+            event.parentElement.querySelector('.far').style.display = 'none';
+        } else {
+            event.parentElement.querySelector('.fas').style.display = 'none';
+        }
+    })
+}
