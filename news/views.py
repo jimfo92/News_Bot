@@ -50,8 +50,8 @@ def search_keyword(request):
 
 @csrf_exempt
 def manage_bookmarks(request):
-    if (request.method != "POST"):
-        return JsonResponse({"error"}, status=404)
+    if (request.method != "POST" and request.method != "PUT"):
+        return JsonResponse({"error":"Your request is not POST neither PUT"}, status=404, safe=False)
     
     data = json.loads(request.body.decode("utf-8"))
     
@@ -63,6 +63,10 @@ def manage_bookmarks(request):
         bookmark.save()
         return JsonResponse({"message": "Article bookmarked successfuly"}, status=201)
 
+    #unbookmark article
+    bookmark = Bookmark.objects.get(user=request.user, article_url=data['url'])
+    print(bookmark)
+    bookmark.delete()
     return JsonResponse({"bookmark": "deleted"}, status=201)
 
 

@@ -29,15 +29,35 @@ document.addEventListener('DOMContentLoaded', () => {
             })
         }
     })
+
+    document.querySelectorAll(".fas").forEach(bookmark => {
+        bookmark.onclick = function(event) {
+            let article = {
+                "type": "unbookmark",
+                "url": event.target.parentElement.querySelector(".read").href
+            }
+
+            fetch("manage_bookmark", {
+                method: "PUT",
+                body: JSON.stringify(article),
+                headers: {"Content-type": "application/json; charset=UTF-8"}
+            }).then(response => response.json()).then(res => {
+                console.log(res);
+                location.reload();
+            }).catch(error => {
+                console.log(error);
+            })
+        }
+    })
 })
 
 
 function manage_bookmarks(article_urls) {
-    document.querySelectorAll('.read').forEach((event) => {
-        if (article_urls.includes(event.href) == true) {
-            event.parentElement.querySelector('.far').style.display = 'none';
+    document.querySelectorAll('.read').forEach((article) => {
+        if (article_urls.includes(article.href) == true) {
+            article.parentElement.querySelector('.far').style.display = 'none';
         } else {
-            event.parentElement.querySelector('.fas').style.display = 'none';
+            article.parentElement.querySelector('.fas').style.display = 'none';
         }
     })
 }
