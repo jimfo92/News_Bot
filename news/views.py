@@ -12,6 +12,7 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from .models import *
 import environ
+from django.core.paginator import Paginator
 
 
 # Initialise environment variables
@@ -36,7 +37,12 @@ def index(request):
 
     news_request = requests.get(f"https://newsapi.org/v2/top-headlines?country={country}&category={category}&pageSize=100&apiKey={env('API_KEY')}")   
     news = json.loads(news_request.content)
-    return render(request, "news/index.html", {"news":news})
+    news = Paginator(news["articles"], 5)
+    page = news.page(2)
+    #news = [(k,v) for k,v in news.articles.items()]
+    #print(news['articles'])
+    print(page)
+    return render(request, "news/index.html", {"news":page})
 
 
 @login_required

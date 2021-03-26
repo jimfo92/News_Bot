@@ -35,10 +35,10 @@
 
     <div class="container">
         <div class="row">
-            {% for article in news.articles %}
+            {% for article in news %}
                 <div class="col-sm">
                     <div class="card" style="width: 18rem;">
-                        <img class="card-img-top" src="{{article.urlToImage}}" alt="{{article.source.name}}">
+                        <img class="card-img-top" src="{{article.urlToImage}}" alt="">
                         <div class="card-body">
                             <i class="far fa-bookmark"></i>
                             <i class="fas fa-bookmark"></i>
