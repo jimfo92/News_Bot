@@ -2,20 +2,35 @@
 {% load static %}
 
 {% block body %}
-<a href="">Previous</a>
-{% if has_next %}
-    {% if view == 'index' %}
-        <a href="?country={{country}}&category={{category}}&page={{page}}" class="paginator_buttons">Next</a>
+
+    {% if has_next %}
+        {% if view == 'index' %}
+            <a href="?country={{country}}&category={{category}}&page={{page|add:1}}" class="paginator_buttons">Next</a>
+        {% endif %}
+
+        {% if view == 'search' %}
+            <a href="?keyword={{keyword}}&page={{page|add:1}}" class="paginator_buttons">Next</a>
+        {% endif %}
+
+        {% if view == 'bookmark' %}
+            <a href="?page={{page|add:1}}" class="paginator_buttons">Next</a>
+        {% endif %}
     {% endif %}
 
-    {% if view == 'search' %}
-        <a href="?keyword={{keyword}}&page={{page}}" class="paginator_buttons">Next</a>
+    {% if not page == 1 %}
+        {% if view == 'index' %}    
+            <a href="?country={{country}}&category={{category}}&page={{page|add:-1 }}" class="paginator_buttons">Previous</a>
+        {% endif %}
+
+        {% if view == 'search' %}
+            <a href="?keyword={{keyword}}&page={{page|add:-1}}" class="paginator_buttons">Previous</a>
+        {% endif %}
+
+        {% if view == 'bookmark' %}
+            <a href="?page={{page|add:-1}}" class="paginator_buttons">Previous</a>
+        {% endif %}
     {% endif %}
 
-    {% if view == 'bookmark' %}
-        <a href="?page={{page}}" class="paginator_buttons">Next</a>
-    {% endif %}
-{% endif %}
     {% if not view == 'bookmark' %}
         <form action="{% url 'index' %}" method="POST">
             {% csrf_token %}

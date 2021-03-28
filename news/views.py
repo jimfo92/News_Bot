@@ -38,8 +38,8 @@ def index(request):
     
     if request.method == "POST":
         try:
-            country = request.POST['country']
-            category = request.POST['category']
+            country = request.POST["country"]
+            category = request.POST["category"]
         except:
             #in case user does not choose country and/or category
             return HttpResponseRedirect(reverse("index"))
@@ -52,7 +52,7 @@ def index(request):
     news = Paginator(news["articles"], 20)
     page = news.page(result_page)
 
-    return render(request, "news/index.html", {"view":"index", "country":country, "category":category, "news":page, "page":result_page+1, "has_next":page.has_next()})
+    return render(request, "news/index.html", {"view":"index", "country":country, "category":category, "news":page, "page":result_page, "has_next":page.has_next()})
 
 
 @login_required
@@ -75,7 +75,7 @@ def search_keyword(request):
     else:
         has_next = False
 
-    return render(request, "news/index.html", {"view":"search", "news":news["articles"], "keyword":keyword, "page":result_page+1, "has_next":has_next})
+    return render(request, "news/index.html", {"view":"search", "news":news["articles"], "keyword":keyword, "page":result_page, "has_next":has_next})
 
 
 @csrf_exempt
@@ -85,9 +85,9 @@ def manage_bookmarks(request):
     
     data = json.loads(request.body.decode("utf-8"))
     
-    type_of_action = data['type']
+    type_of_action = data["type"]
     
-    if type_of_action == 'bookmark':
+    if type_of_action == "bookmark":
         bookmark = Bookmark(user=request.user, title=data['title'], card_description=data['card_description'], image_url=data['image_url'],
         article_url=data['url'])
         bookmark.save()
@@ -112,7 +112,7 @@ def show_bookmarks(request):
     bookmarks = Paginator(bookmarks["articles"], 20)
     page = bookmarks.page(result_page)
 
-    return render(request, "news/index.html", {"view":"bookmark", "news":page, "page":result_page+1, "has_next":page.has_next()})
+    return render(request, "news/index.html", {"view":"bookmark", "news":page, "page":result_page, "has_next":page.has_next()})
 
 
 @login_required
