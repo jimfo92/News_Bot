@@ -21,3 +21,10 @@ form {
     margin-left: 0.5em; 
     background-color: #007bff;
 }
+
+.paginator_buttons {
+    margin-right: 1em; 
+    float: right;
+    font-size: 23px;
+    margin-top: 1em;
+}

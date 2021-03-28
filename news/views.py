@@ -23,10 +23,19 @@ environ.Env.read_env()
 # Create your views here.
 @login_required
 def index(request):
-    #default values us and general 
-    country = 'us'
-    category = 'general'
+    country = request.GET.get("country")
+    if country == None:
+        country = "us"
 
+    category = request.GET.get("category")
+    if category == None:
+        category = "general"
+
+    try:
+        result_page = int(request.GET.get("page"))
+    except:
+        result_page = 1
+    
     if request.method == "POST":
         try:
             country = request.POST['country']
@@ -37,21 +46,36 @@ def index(request):
 
     news_request = requests.get(f"https://newsapi.org/v2/top-headlines?country={country}&category={category}&pageSize=100&apiKey={env('API_KEY')}")   
     news = json.loads(news_request.content)
-    news = Paginator(news["articles"], 5)
-    page = news.page(2)
-    #news = [(k,v) for k,v in news.articles.items()]
-    #print(news['articles'])
-    print(page)
-    return render(request, "news/index.html", {"news":page})
+
+    total_results = int(news["totalResults"])
+
+    news = Paginator(news["articles"], 20)
+    page = news.page(result_page)
+
+    return render(request, "news/index.html", {"view":"index", "country":country, "category":category, "news":page, "page":result_page+1, "has_next":page.has_next()})
 
 
 @login_required
 def search_keyword(request):
     if request.method == "POST":
         keyword = request.POST["keyword"]
-        news_request = requests.get(f"https://newsapi.org/v2/everything?q={keyword}&from={datetime.today().strftime('%Y-%m-%d')}&sortBy=popularity&apiKey={env('API_KEY')}")   
-        news = json.loads(news_request.content)
-        return render(request, "news/index.html", {"news":news})
+        result_page = 1
+    else:
+        #GET request - retrieve keyword and result_page
+        keyword = request.GET.get("keyword")
+        result_page = int(request.GET.get("page"))
+
+    news_request = requests.get(f"https://newsapi.org/v2/everything?q={keyword}&from={datetime.today().strftime('%Y-%m-%d')}&sortBy=popularity&page={result_page}&apiKey={env('API_KEY')}")   
+    news = json.loads(news_request.content)
+
+    total_results = int(news["totalResults"])
+
+    if 20*result_page < total_results  and 20*result_page < 100:
+        has_next = True
+    else:
+        has_next = False
+
+    return render(request, "news/index.html", {"view":"search", "news":news["articles"], "keyword":keyword, "page":result_page+1, "has_next":has_next})
 
 
 @csrf_exempt
@@ -71,18 +95,24 @@ def manage_bookmarks(request):
 
     #unbookmark article
     bookmark = Bookmark.objects.get(user=request.user, article_url=data['url'])
-    print(bookmark)
     bookmark.delete()
     return JsonResponse({"bookmark": "deleted"}, status=201)
 
 
 @login_required
 def show_bookmarks(request):
-    bookmarks = reversed(Bookmark.objects.filter(user=request.user))
+    try:
+        result_page = int(request.GET.get("page"))
+    except:
+        result_page = 1
 
-    #transform bookmarks that can be displayed from index.html
+    bookmarks = list(reversed(Bookmark.objects.filter(user=request.user)))
     bookmarks = {"articles": [bookmark.serialize() for bookmark in bookmarks]}
-    return render(request, "news/index.html", {"news":bookmarks, "bookmark_layout":True})
+
+    bookmarks = Paginator(bookmarks["articles"], 20)
+    page = bookmarks.page(result_page)
+
+    return render(request, "news/index.html", {"view":"bookmark", "news":page, "page":result_page+1, "has_next":page.has_next()})
 
 
 @login_required
