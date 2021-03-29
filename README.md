@@ -28,6 +28,6 @@ NewsBot is an app that displays news. This is the final project for CS50's Web P
             - ***register.html***
             
 ## To run the application
-  - Install ***Django Environ*** for Django enviroment variables ***pip3 install django-environ***
+  - Install ***Django Environ*** for Django enviroment variables with ***pip3 install django-environ***
   - Install the ***Requests*** Module for query external api in the server side with ***pip3 install requests***
   - ***python3 manage.py runserver*** to run the app
