@@ -1,0 +1,2 @@
+Install Django Environ for Django enviroment variables
+Install the Requests Module for query external api in the server side
