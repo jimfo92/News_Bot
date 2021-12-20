@@ -3,18 +3,18 @@
 NewsBot is an app that displays news.
 
 ## Features
-  - Register and login
-  - Display recently top headings news for specific country and category
-  - Display recently news with specific keyword
-  - Bookmark news if user logged in
-  - Paginate results
+  - Register and login.
+  - Display recently top headings news for specific country and category.
+  - Display recently news with specific keyword.
+  - Bookmark news if user logged in.
+  - Paginate results.
   
 ## Project complexity requirements
-  - Query external NewsAPI (https://newsapi.org) in server side
-  - Bookmark news asynchronously with JavaScript
-  - Two models defined one for users and one for bookmarks
-  - Mobile responsiveness with Bootstrap library
-  - Seted up environment variables for api key
+  - Query external NewsAPI (https://newsapi.org) in server side.
+  - Bookmark news asynchronously with JavaScript.
+  - Two models defined one for users and one for bookmarks.
+  - Mobile responsiveness with Bootstrap library.
+  - Seted up environment variables for api key.
   
 ## Files & Directories that have been created
   - ***news*** the app that contains all the fuctionality
