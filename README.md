@@ -1,6 +1,6 @@
-# final_project_NewsBot
+# News_Bot
 
-NewsBot is an app that displays news. This is the final project for CS50's Web Programming with Python and JavaScript.
+NewsBot is an app that displays news.
 
 ## Features
   - Register and login
@@ -9,7 +9,7 @@ NewsBot is an app that displays news. This is the final project for CS50's Web P
   - Bookmark news if user logged in
   - Paginate results
   
-## Project distinctiveness and complexity requirements
+## Project complexity requirements
   - Query external NewsAPI (https://newsapi.org) in server side
   - Bookmark news asynchronously with JavaScript
   - Two models defined one for users and one for bookmarks
