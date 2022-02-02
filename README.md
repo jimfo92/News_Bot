@@ -1,6 +1,6 @@
-# News_Bot
+# news_app
 
-NewsBot is an app that displays news.
+news_app is an app that displays top headings news.
 
 ## Features
   - Register and login.
