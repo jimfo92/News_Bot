@@ -1,10 +1,10 @@
 # news_app
 
-news_app is an app that displays top headings news.
+news_app is an app that displays top headlines news.
 
 ## Features
   - Register and login.
-  - Display recently top headings news for specific country and category.
+  - Display recently top headlines news for specific country and category.
   - Display recently news with specific keyword.
   - Bookmark news if user logged in.
   - Paginate results.
