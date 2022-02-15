@@ -1,5 +1,4 @@
 # news_app
-
 news_app is an app that displays top headlines news.
 
 ## Features
@@ -15,19 +14,15 @@ news_app is an app that displays top headlines news.
   - Two models defined one for users and one for bookmarks.
   - Mobile responsiveness with Bootstrap library.
   - Seted up environment variables for api key.
-  
-## Files & Directories that have been created
-  - ***news*** the app that contains all the fuctionality
-       - ***static/news*** Holds static files
-            - ***index.js*** JavaScript functionality
-            - ***styles.css***
-       - ***templates/news*** Html files
-            - ***index.html*** The html file for display news
-            - ***layout.html*** Contain html stracture that all the other html files extends. Also contains navigation bar
-            - ***login.html***
-            - ***register.html***
             
-## To run the application
-  - Install ***Django Environ*** for Django enviroment variables with ***pip3 install django-environ***
-  - Install the ***Requests*** Module for query external api in the server side with ***pip3 install requests***
-  - ***python3 manage.py runserver*** to run the app
+## Install
+  - Install ***Django Environ*** for Django enviroment variables with `pip install django-environ`
+  - Install the ***Requests*** module for query external api in the server side with `pip install requests`
+  
+  In your terminal, `cd` into the project directory.
+  ```
+  python manage.py makemigrations
+  python manage.py migrate
+  
+  python manage.py runserver
+  ```
