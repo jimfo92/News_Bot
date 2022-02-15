@@ -19,7 +19,7 @@ news_app is an app that displays top headlines news.
   - Install ***Django Environ*** for Django enviroment variables with `pip install django-environ`
   - Install the ***Requests*** module for query external api in the server side with `pip install requests`
   
-  In your terminal, `cd` into the project directory.
+  -In your terminal, `cd` into the project directory.
   ```
   python manage.py makemigrations
   python manage.py migrate
