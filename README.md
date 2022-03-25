@@ -1,9 +1,9 @@
 # news_app
-news_app is an app that displays top headlines news.
+news_finder is an app that displays top news headlines.
 
 ## Features
   - Register and login.
-  - Display recently top headlines news for specific country and category.
+  - Display recently top headlines for specific country and category.
   - Display recently news with specific keyword.
   - Bookmark news if user logged in.
   - Paginate results.
